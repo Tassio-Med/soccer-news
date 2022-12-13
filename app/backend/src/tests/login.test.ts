@@ -1,39 +1,17 @@
 import * as chai from 'chai';
+import { Response } from 'superagent';
+import App from '../app';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
-import App from '../app';
-// import User from '../database/models/UserModel';
-
-import { Response } from 'superagent';
-import LoginService from '../services/LoginService';
-
 chai.use(chaiHttp);
 
-const loginService = new LoginService();
-
 const { app } = new App();
-
 const { expect } = chai;
 
 describe('teste do login', () => {
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
 
   let chaiHttpResponse: Response;
-
-  // before(async () => {
-  //   sinon
-  //     .stub(User, "findOne")
-  //     .resolves({
-        
-  //     } as User);
-  // });
-
-  // after(()=>{
-  //   (User.findOne as sinon.SinonStub).restore();
-  // })
 
   it('testando sem email', async () => {
     chaiHttpResponse = await chai
@@ -82,7 +60,13 @@ describe('teste do login', () => {
        .send({ email: 'admin@admin.com', password: 'secret_admin' });
 
     expect(chaiHttpResponse.status).to.be.equal(200);
+
+    const role = await chai
+      .request(app)
+      .get('/login/validate')
+      .set('Authorization', chaiHttpResponse.body.token);
+
+    expect(role.body).to.deep.equal({ role: 'admin' })
   });
 
 });
-
