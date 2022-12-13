@@ -29,4 +29,10 @@ export default class LoginService {
 
     return { error: false, message: token };
   }
+
+  static async getUserRole(id: number): Promise<{ role: string }> {
+    const login = await UserModel.findOne({ where: { id } }) as IUser;
+
+    return { role: login.role };
+  }
 }

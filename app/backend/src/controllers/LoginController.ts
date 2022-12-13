@@ -11,4 +11,11 @@ export default class LoginController {
 
     res.status(200).json({ token: message });
   }
+
+  static async validate(req: Request, res: Response) {
+    const id = req.body.user;
+    const { role } = await LoginService.getUserRole(id);
+
+    res.status(200).json({ role });
+  }
 }
