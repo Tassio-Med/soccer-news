@@ -12,7 +12,7 @@ class MatchModel extends Model {
 }
 
 MatchModel.init({
-  id: { type: DataTypes.INTEGER, primaryKey: true },
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   homeTeam: DataTypes.INTEGER,
   homeTeamGoals: DataTypes.INTEGER,
   awayTeam: DataTypes.INTEGER,

@@ -1,14 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
-import * as jwt from 'jsonwebtoken';
+import { decodeToken } from '../utils/token';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'jwt_secret';
+export default async function authMiddleware(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { authorization: token } = req.headers;
 
-export default async function authMiddleware(req: Request, _res: Response, next: NextFunction) {
-  const { authorization: token } = req.headers;
+    if (!token) return res.status(401).json({ message: 'Token must be a valid token' });
 
-  const data = jwt.verify(token as string, JWT_SECRET) as jwt.JwtPayload;
+    const userId = decodeToken(token as string);
 
-  req.body.user = data.userId;
+    req.body.user = userId;
 
-  next();
+    next();
+  } catch (e) {
+    return res.status(401).json({ message: 'Token must be a valid token' });
+  }
 }
