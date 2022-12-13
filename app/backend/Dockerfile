@@ -10,6 +10,4 @@ COPY . .
 
 EXPOSE 3001
 
-RUN npx tsc
-
 ENTRYPOINT ["npm", "start"]

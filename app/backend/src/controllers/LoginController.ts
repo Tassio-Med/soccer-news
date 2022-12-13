@@ -3,11 +3,9 @@ import IError from '../interfaces/IError';
 import LoginService from '../services/LoginService';
 
 export default class LoginController {
-  loginService = new LoginService();
-
-  async login(req: Request, res: Response) {
+  static async login(req: Request, res: Response) {
     const { email, password } = req.body;
-    const { error, message }: IError = await this.loginService.login({ email, password });
+    const { error, message }: IError = await LoginService.login({ email, password });
 
     if (error) return res.status(401).json({ message });
 

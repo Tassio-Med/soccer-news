@@ -8,16 +8,12 @@ import IUser from '../interfaces/IUser';
 const JWT_SECRET = process.env.JWT_SECRET || 'jwt_secret';
 
 export default class LoginService {
-  private userModel = UserModel;
-
-  async login(user: ILogin): Promise<IError> {
-    const login = await this.userModel.findOne({ where: { email: user.email } }) as IUser;
+  static async login(user: ILogin): Promise<IError> {
+    const login = await UserModel.findOne({ where: { email: user.email } }) as IUser;
 
     if (!login) {
       return { error: true, message: 'Incorrect email or password' };
     }
-
-    console.log(compareSync('secret_admin', login.password));
 
     if (!compareSync(user.password, login.password)) {
       return { error: true, message: 'Incorrect email or password' };

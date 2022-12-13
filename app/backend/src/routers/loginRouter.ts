@@ -3,8 +3,7 @@ import LoginController from '../controllers/LoginController';
 import loginMiddleware from '../middlewares/loginMiddleware';
 
 const router = Router();
-const loginController = new LoginController();
 
-router.use('/', loginMiddleware, (req: Request, res: Response) => loginController.login(req, res));
+router.use('/', loginMiddleware, (req: Request, res: Response) => LoginController.login(req, res));
 
 export default router;
