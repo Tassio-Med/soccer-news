@@ -7,7 +7,7 @@ class TeamModel extends Model {
 }
 
 TeamModel.init({
-  id: { type: DataTypes.INTEGER, primaryKey: true },
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   teamName: DataTypes.STRING,
 }, {
   tableName: 'teams',
